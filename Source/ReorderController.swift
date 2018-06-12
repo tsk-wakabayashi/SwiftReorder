@@ -217,7 +217,7 @@ public class ReorderController: NSObject {
     
     // MARK: - Reordering
     
-    func beginReorder(touchPosition: CGPoint) {
+    public func beginReorder(touchPosition: CGPoint) {
         guard case .ready = reorderState,
             let delegate = delegate,
             let tableView = tableView,
@@ -230,6 +230,12 @@ public class ReorderController: NSObject {
             delegate.tableView(tableView, canReorderRowAt: sourceRow)
         else { return }
         
+        
+        
+        let cell = tableView.cellForRow(at: sourceRow)
+//        let imageTouchPosition = tableView.convert(tableTouchPosition,to: cell?.textLabel)
+//        print(imageTouchPosition)
+//
         createSnapshotViewForCell(at: sourceRow)
         animateSnapshotViewIn()
         activateAutoScrollDisplayLink()
@@ -249,7 +255,7 @@ public class ReorderController: NSObject {
         delegate.tableViewDidBeginReordering(tableView, at: sourceRow)
     }
     
-    func updateReorder(touchPosition: CGPoint) {
+    public func updateReorder(touchPosition: CGPoint) {
         guard case .reordering(let context) = reorderState else { return }
         
         var newContext = context
@@ -260,7 +266,7 @@ public class ReorderController: NSObject {
         updateDestinationRow()
     }
     
-    func endReorder() {
+    public func endReorder() {
         guard case .reordering(let context) = reorderState,
             let tableView = tableView,
             let superview = tableView.superview
